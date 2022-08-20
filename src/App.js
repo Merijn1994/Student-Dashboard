@@ -1,25 +1,66 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useState } from "react"
+import BarChart from "./Components/BarChart";
+import studentsData from "./studentsData";
+import StudentFilter from "./Components/StudentFilter";
+import LineChart from "./Components/LineChart";
 
 function App() {
+  // initialize state
+  const [data] = useState(studentsData)
+  const [filteredData, setFilteredData] = useState()
+
+  // compile all students and give unique id
+  const allStudentNames = studentsData.map(students => students.name)
+  const studentNames = [...new Set(allStudentNames)]
+  .map((names, index) => {
+    return {
+      name: names,
+      id: index + 1
+    }
+  })
+
+  // filter the data for individual students
+  const filterIndividualStudent = name => {
+    return data.filter(student => {
+      return student.name === name
+    })
+  }
+  
+  // apply filter changes to the chart
+  const handleChange = event => {
+    setFilteredData(filterIndividualStudent(event.target.value))
+  }
+  
+  // Calculate average
+
+  const groupedData = Object.values(data.reduce((acc, { assignment, difficulty, fun }) => { 
+    acc[assignment] = acc[assignment] || { assignment, difficulty: 0, fun: 0, participants: 0 };
+    acc[assignment].difficulty += difficulty;
+    acc[assignment].fun += fun;
+    acc[assignment].participants++;
+    return acc;
+}, []))
+
+  const averageData = groupedData.map(({ assignment, participants, difficulty, fun }) => { 
+    return { 
+        assignment,
+        participants,
+        avgDifficulty: difficulty / participants,
+        avgFun: fun / participants
+    }
+});
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <BarChart data={!filteredData? data: filteredData}/>
+      <StudentFilter 
+        studentNames={studentNames}
+        handleChange={handleChange}
+      />
+      <LineChart data={averageData}/>
     </div>
-  );
+  )
 }
 
 export default App;
