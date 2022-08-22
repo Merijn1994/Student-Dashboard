@@ -4,6 +4,8 @@ import BarChart from "./Components/BarChart";
 import studentsData from "./studentsData";
 import StudentFilter from "./Components/StudentFilter";
 import LineChart from "./Components/LineChart";
+import Header from "./Components/Header";
+import Footer from "./Components/Footer";
 
 function App() {
   // initialize state
@@ -11,11 +13,11 @@ function App() {
   const [filteredData, setFilteredData] = useState()
 
   // compile all students and give unique id
-  const allStudentNames = studentsData.map(students => students.name)
+  const allStudentNames = data.map(students => students.name)
   const studentNames = [...new Set(allStudentNames)]
-  .map((names, index) => {
+  .map((name, index) => {
     return {
-      name: names,
+      name: name,
       id: index + 1
     }
   })
@@ -33,7 +35,6 @@ function App() {
   }
   
   // Calculate average
-
   const groupedData = Object.values(data.reduce((acc, { assignment, difficulty, fun }) => { 
     acc[assignment] = acc[assignment] || { assignment, difficulty: 0, fun: 0, participants: 0 };
     acc[assignment].difficulty += difficulty;
@@ -53,12 +54,14 @@ function App() {
 
   return (
     <div>
+      <Header />
       <BarChart data={!filteredData? data: filteredData}/>
       <StudentFilter 
         studentNames={studentNames}
         handleChange={handleChange}
       />
       <LineChart data={averageData}/>
+      <Footer />
     </div>
   )
 }

@@ -11,9 +11,12 @@ function StudentFilter ( {studentNames, handleChange} ) {
   )
 
   return(
-    <div>
-      <h2>Students</h2>
-      {radioButtons}
+    <div className="student-filter">
+      <h3>Students</h3>
+      <h4>Select a student to filter the bar chart</h4>
+      <div className="radio-buttons">
+        {radioButtons}
+      </div>
     </div>
   )
 }
