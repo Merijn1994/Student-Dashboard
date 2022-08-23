@@ -6,11 +6,12 @@ import StudentFilter from "./Components/StudentFilter";
 import LineChart from "./Components/LineChart";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+import BarChartIndividualStudent from "./Components/BarChartIndividualStudent";
 
 function App() {
   // initialize state
   const [data] = useState(studentsData)
-  const [filteredData, setFilteredData] = useState()
 
   // compile all students and give unique id
   const allStudentNames = data.map(students => students.name)
@@ -21,18 +22,6 @@ function App() {
       id: index + 1
     }
   })
-
-  // filter the data for individual students
-  const filterIndividualStudent = name => {
-    return data.filter(student => {
-      return student.name === name
-    })
-  }
-  
-  // apply filter changes to the chart
-  const handleChange = event => {
-    setFilteredData(filterIndividualStudent(event.target.value))
-  }
   
   // Calculate average
   const groupedData = Object.values(data.reduce((acc, { assignment, difficulty, fun }) => { 
@@ -47,20 +36,37 @@ function App() {
     return { 
         assignment,
         participants,
-        avgDifficulty: difficulty / participants,
-        avgFun: fun / participants
+        difficulty: difficulty / participants,
+        fun: fun / participants
     }
 });
 
   return (
     <div>
       <Header />
-      <BarChart data={!filteredData? data: filteredData}/>
-      <StudentFilter 
-        studentNames={studentNames}
-        handleChange={handleChange}
-      />
-      <LineChart data={averageData}/>
+      <BrowserRouter>
+        <Routes>
+          <Route 
+            path='/'
+            element={
+              <div className="main-path">
+                <BarChart data={averageData}/>
+                <StudentFilter 
+                  studentNames={studentNames}
+                />
+                <LineChart data={averageData}/>
+              </div>}
+          />
+          <Route 
+            path='/student/:name'
+            element={
+              <div>
+                <BarChartIndividualStudent data={data}/>
+              </div>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
       <Footer />
     </div>
   )

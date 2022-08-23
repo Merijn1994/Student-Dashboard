@@ -23,7 +23,7 @@ import {
     }))
     return (
       <div className="bar-chart">
-        <h2>Student Assignment Evaluations</h2>
+        <h2>Average Student Evaluation Overview</h2>
         <VictoryChart
           theme={VictoryTheme.material}
           width={720}

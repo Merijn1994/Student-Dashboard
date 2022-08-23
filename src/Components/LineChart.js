@@ -37,7 +37,7 @@ import {
             }} 
             data={data}
             x="assignment"
-            y="avgFun"            
+            y="fun"            
           />
           <VictoryLine
             style={{
@@ -45,7 +45,7 @@ import {
             }}  
             data={data}
             x="assignment"
-            y="avgDifficulty"            
+            y="difficulty"            
           />
           <VictoryLabel
             x={50}

@@ -22,7 +22,7 @@ h4 {
   font-size: 20px;
 }
 
-.radio-buttons{
+.student-list{
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
@@ -52,11 +52,16 @@ h4 {
 
 .student-filter {
   margin-top: 39px;
-  background-color: rgb(213, 231, 250);
+  background-color: rgb(218, 222, 227);
   padding-top: 20px;
   padding-bottom: 55px;
 }
 
-label {
-  color: rgb(14, 1, 1);
+a {
+  text-decoration: none;
+}
+
+.students {
+  color: black;
+  font-weight: bold;
 }

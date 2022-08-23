@@ -1,11 +1,10 @@
 import React from "react";
-import RadioButtons from "./RadioButtons";
+import IndividualStudents from "./Individual Students";
 
-function StudentFilter ( {studentNames, handleChange} ) {
-  const radioButtons = studentNames.map((student)=> 
-    <RadioButtons 
-      names={student.name} 
-      handleChange={handleChange}
+function StudentFilter ( {studentNames} ) {
+  const studentList = studentNames.map((student)=> 
+    <IndividualStudents 
+      name={student.name} 
       key={student.id}
     />
   )
@@ -14,8 +13,8 @@ function StudentFilter ( {studentNames, handleChange} ) {
     <div className="student-filter">
       <h3>Students</h3>
       <h4>Select a student to filter the bar chart</h4>
-      <div className="radio-buttons">
-        {radioButtons}
+      <div className="student-list">
+        {studentList}
       </div>
     </div>
   )
